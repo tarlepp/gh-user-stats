@@ -78,7 +78,7 @@ function fetchEvents(username, page) {
 
           let key;
 
-          switch (program.rows) {
+          switch (program.dimension) {
             case 'weekday':
               key = date.format('d dddd');
               break;
