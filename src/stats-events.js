@@ -68,7 +68,6 @@ function fetchEvents(username, page) {
 
   const validTypes = [
     'CreateEvent',
-    'GistEvent',
     'IssueCommentEvent',
     'PullRequestEvent',
     'PushEvent',
@@ -109,6 +108,7 @@ function fetchEvents(username, page) {
               commits: event.payload.commits ? event.payload.commits.length : 0,
               issueComments: event.payload.issue && event.payload.action === 'created' ? 1 : 0,
               created: event.type === 'CreateEvent' ? 1 : 0,
+              pullRequest: event.type === 'PullRequestEvent' && event.payload.action === 'opened' ? 1 : 0,
             },
             date: date,
             key: key
@@ -126,7 +126,7 @@ function fetchEvents(username, page) {
 
 function makeTable(results) {
   const table = new Table({
-    head: ['Dimension', 'Events', 'Commits', 'Issue comments', 'Created'],
+    head: ['Dimension', 'Events', 'Commits', 'Issue\ncomments', 'Created', 'PR'],
   });
 
   results.sort((a, b) => a.key.localeCompare(b.key));
@@ -138,6 +138,7 @@ function makeTable(results) {
       {hAlign: 'right', content: result.items.map(item => item.cnt.commits).reduce((a, b) => a + b, 0)},
       {hAlign: 'right', content: result.items.map(item => item.cnt.issueComments).reduce((a, b) => a + b, 0)},
       {hAlign: 'right', content: result.items.map(item => item.cnt.created).reduce((a, b) => a + b, 0)},
+      {hAlign: 'right', content: result.items.map(item => item.cnt.pullRequest).reduce((a, b) => a + b, 0)},
     ]);
   });
 
