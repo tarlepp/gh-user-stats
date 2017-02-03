@@ -4,6 +4,7 @@
 const chalk = require('chalk');
 const program = require('commander');
 const Table = require('cli-table2');
+const Spinner = require('cli-spinner').Spinner;
 const moment = require('moment');
 
 program
@@ -33,6 +34,10 @@ if (!args.length) {
 const github = require('./utils/github')(program);
 
 let rawData = [];
+let spinner = new Spinner('Crunching data... %s');
+
+spinner.setSpinnerString('|/-\\');
+spinner.start();
 
 fetchEvents(program.args[0])
   .then(results => {
@@ -48,6 +53,8 @@ fetchEvents(program.args[0])
 
       return hash.set(key, current);
     }, new Map).values()];
+
+    spinner.stop(true);
 
     makeTable(result);
   })
