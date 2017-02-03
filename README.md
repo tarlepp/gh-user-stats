@@ -4,19 +4,22 @@
 [![Dependency Status](https://david-dm.org/tarlepp/gh-user-stats.svg)](https://david-dm.org/tarlepp/gh-user-stats)
 [![devDependency Status](https://david-dm.org/tarlepp/gh-user-stats/dev-status.svg)](https://david-dm.org/tarlepp/gh-user-stats#info=devDependencies)
 
+Tool to collect specified user statistics from GitHub.
 
-# What is this?
-todo...
-
-# Usage examples
+## Installation
 ```bash
-$ node ./src/stats.js events tarlepp
+$ npm install -g gh-user-stats
 ```
 
-# Authors
+## Usage
+```
+$ gh-user-stats
+```
+
+## Authors
 [Tarmo Leppänen](https://github.com/tarlepp)
 
-# LICENSE
+## LICENSE
 [The MIT License (MIT)](LICENSE)
 
 Copyright (c) 2017 Tarmo Leppänen
