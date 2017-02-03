@@ -41,7 +41,7 @@ spinner.start();
 
 fetchEvents(program.args[0])
   .then(results => {
-    const result = [...results.reduce((hash, {key, type, repo, commits, issueComments, date}) => {
+    const result = [...results.reduce((hash, {key, type, repo, commits, issueComments, cntCreated, date}) => {
       let current = hash.get(key) || {key, items: []};
 
       current.items.push({
@@ -49,6 +49,7 @@ fetchEvents(program.args[0])
         repo: repo,
         commits: commits,
         issueComments: issueComments,
+        cntCreated: cntCreated,
         date: date,
       });
 
@@ -108,6 +109,7 @@ function fetchEvents(username, page) {
             repo: event.repo.name,
             commits: event.payload.commits ? event.payload.commits.length : 0,
             issueComments: event.payload.issue && event.payload.action === 'created' ? 1 : 0,
+            cntCreated: event.type === 'CreateEvent' ? 1 : 0,
             date: date,
             key: key
           };
@@ -124,7 +126,7 @@ function fetchEvents(username, page) {
 
 function makeTable(results) {
   const table = new Table({
-    head: ['Dimension', 'Events', 'Commits', 'Issue comments'],
+    head: ['Dimension', 'Events', 'Commits', 'Issue comments', 'Created'],
   });
 
   results.sort((a, b) => a.key.localeCompare(b.key));
@@ -135,6 +137,7 @@ function makeTable(results) {
       {hAlign: 'right', content: result.items.length},
       {hAlign: 'right', content: result.items.map(item => item.commits).reduce((a, b) => a + b, 0)},
       {hAlign: 'right', content: result.items.map(item => item.issueComments).reduce((a, b) => a + b, 0)},
+      {hAlign: 'right', content: result.items.map(item => item.cntCreated).reduce((a, b) => a + b, 0)},
     ]);
   });
 
