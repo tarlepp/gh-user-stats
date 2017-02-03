@@ -142,5 +142,31 @@ function makeTable(results) {
     ]);
   });
 
+  console.log(`GitHub activity statistics of user ${chalk.bold(program.args[0])} for last 90 days`);
   console.log(table.toString());
+
+  [
+    {
+      'column': 'Events',
+      'description': 'Total activity events to GitHub',
+    },
+    {
+      'column': 'Commits',
+      'description': 'Actual commit counts',
+    },
+    {
+      'column': 'Issue comments',
+      'description': 'Created issue(s) or issue comment(s)',
+    },
+    {
+      'column': 'Created',
+      'description': 'Represents a created repository, branch, or tag',
+    },
+    {
+      'column': 'PR',
+      'description': 'Opened pull request(s)',
+    }
+  ].map(section => {
+    console.log(`${chalk.bold(section.column)}: ${section.description}`);
+  });
 }
