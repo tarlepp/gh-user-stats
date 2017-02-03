@@ -4,7 +4,8 @@
   "description": "",
   "main": "./src/stats.js",
   "bin": {
-    "gh-user-stats": "./src/stats.js"
+    "gh-user-stats": "./src/stats.js",
+    "gh-user-stats-events": "./src/stats-events.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
