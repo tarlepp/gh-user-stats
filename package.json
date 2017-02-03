@@ -1,6 +1,6 @@
 {
   "name": "gh-user-stats",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Tool to collect specified user statistics from GitHub.",
   "main": "./src/stats.js",
   "bin": {
