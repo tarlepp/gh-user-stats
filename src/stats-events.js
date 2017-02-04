@@ -6,6 +6,7 @@ const program = require('commander');
 const Table = require('cli-table2');
 const Spinner = require('cli-spinner').Spinner;
 const moment = require('moment');
+const errorHandler = require('./utils/error-handler');
 
 program
   .arguments('<username>')
@@ -59,9 +60,10 @@ fetchEvents(program.args[0])
     makeTable(result);
   })
   .catch(error => {
-    console.log(chalk.red(error));
-  });
+    spinner.stop(true);
 
+    errorHandler(error);
+  });
 
 function fetchEvents(username, page) {
   page = page || 1;
