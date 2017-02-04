@@ -1,5 +1,14 @@
 # Change Log
 
+## [v0.0.8](https://github.com/tarlepp/gh-user-stats/tree/v0.0.8) (2017-02-04)
+[Full Changelog](https://github.com/tarlepp/gh-user-stats/compare/v0.0.7...v0.0.8)
+
+**Closed issues:**
+
+- Improve API ratelimit error handling [\#3](https://github.com/tarlepp/gh-user-stats/issues/3)
+- Add changelog [\#2](https://github.com/tarlepp/gh-user-stats/issues/2)
+- GitHub OAUTH token from ENV [\#1](https://github.com/tarlepp/gh-user-stats/issues/1)
+
 ## [v0.0.7](https://github.com/tarlepp/gh-user-stats/tree/v0.0.7) (2017-02-03)
 [Full Changelog](https://github.com/tarlepp/gh-user-stats/compare/0.0.5...v0.0.7)
 
