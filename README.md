@@ -6,6 +6,15 @@
 
 Tool to collect specified user statistics from GitHub.
 
+Table of Contents
+=================
+  * [gh-user-stats](#gh-user-stats)
+    * [Installation](#installation)
+    * [Usage](#usage)
+    * [Authors](#authors)
+    * [LICENSE](#license)
+
+
 ## Installation
 ```bash
 $ npm install -g gh-user-stats
