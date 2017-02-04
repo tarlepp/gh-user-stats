@@ -3,8 +3,6 @@
 const GitHubApi = require('github');
 
 const github = new GitHubApi({
-  // optional
-  //debug: true,
   protocol: 'https',
   host: 'api.github.com',
   pathPrefix: '/',
@@ -20,6 +18,11 @@ module.exports = (program) => {
     github.authenticate({
       type: 'oauth',
       token: program.token,
+    });
+  } else if (process.env.GH_USER_STATS_GITHUB_TOKEN) {
+    github.authenticate({
+      type: 'oauth',
+      token: process.env.GH_USER_STATS_GITHUB_TOKEN,
     });
   }
 

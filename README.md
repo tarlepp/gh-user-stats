@@ -24,8 +24,23 @@ $ npm install -g gh-user-stats
 ```
 
 ## Usage
-```
+```bash
 $ gh-user-stats
+```
+
+## GitHub token
+Since GitHub allow to make only 50 requests without authentication per hour it's recommended to run this script 
+with token (-t, --token option)
+
+You can easily generate it [here](https://github.com/settings/tokens).
+
+After that you can run application with key -t [your-40-digit-github-token]
+Or set environment variable `GH_USER_STATS_GITHUB_TOKEN` and specify there your token.
+
+i.e. add to your `~/.bash_profile` or `~/.zshrc` or any other place to load ENV variables string:
+
+```
+export GH_USER_STATS_GITHUB_TOKEN="your-40-digit-github-token"
 ```
 
 ## [Change log](CHANGELOG.md)
