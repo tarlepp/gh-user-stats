@@ -5,6 +5,7 @@
   "main": "./src/stats.js",
   "bin": {
     "gh-user-stats": "./src/stats.js",
+    "gh-user-stats-commits": "./src/stats-commits.js",
     "gh-user-stats-events": "./src/stats-events.js"
   },
   "scripts": {
