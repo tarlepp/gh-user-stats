@@ -4,9 +4,9 @@
 const chalk = require('chalk');
 const program = require('commander');
 const Table = require('cli-table2');
-const Spinner = require('cli-spinner').Spinner;
 const moment = require('moment');
 const errorHandler = require('./utils/error-handler');
+const spinner = require('./utils/spinner');
 
 program
   .arguments('<username>')
@@ -35,9 +35,9 @@ if (!args.length) {
 const github = require('./utils/github')(program);
 
 let rawData = [];
-let spinner = new Spinner('Crunching data... %s');
 
-spinner.setSpinnerString('|/-\\');
+console.log(`GitHub activity statistics of user ${chalk.bold(program.args[0])}`);
+
 spinner.start();
 
 fetchEvents(program.args[0])
@@ -55,12 +55,12 @@ fetchEvents(program.args[0])
       return hash.set(key, current);
     }, new Map).values()];
 
-    spinner.stop(true);
+    spinner.stop();
 
     makeTable(result);
   })
   .catch(error => {
-    spinner.stop(true);
+    spinner.stop();
 
     errorHandler(error);
   });
@@ -144,7 +144,6 @@ function makeTable(results) {
     ]);
   });
 
-  console.log(`GitHub activity statistics of user ${chalk.bold(program.args[0])} for last 90 days`);
   console.log(table.toString());
 
   [

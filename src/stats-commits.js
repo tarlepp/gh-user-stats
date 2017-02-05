@@ -4,10 +4,10 @@
 const chalk = require('chalk');
 const program = require('commander');
 const Table = require('cli-table2');
-const Spinner = require('cli-spinner').Spinner;
 const moment = require('moment');
-const errorHandler = require('./utils/error-handler');
 const Promise = require('bluebird');
+const errorHandler = require('./utils/error-handler');
+const spinner = require('./utils/spinner');
 
 program
   .description('Collect specified user commit statistics with desired dimension')
@@ -44,11 +44,9 @@ const github = require('./utils/github')(program);
 
 let rawDataRepositories = [];
 let rawDataCommits = {};
-let spinner = new Spinner('Crunching data... %s');
 
 console.log(`GitHub commit statistics of user ${chalk.bold(program.args[0])} since ${chalk.bold(program.year)} year start`);
 
-spinner.setSpinnerString('⢄⢂⢁⡁⡈⡐⡠');
 spinner.start();
 
 fetchRepositories(program.args[0])
@@ -64,7 +62,7 @@ fetchRepositories(program.args[0])
     return Promise.all(promises);
   })
   .then(results => {
-    spinner.stop(true);
+    spinner.stop();
     results = [].concat.apply([], results);
 
     console.log(`Total number of repositories: ${chalk.bold(results.length)} to check`);
@@ -93,7 +91,7 @@ fetchRepositories(program.args[0])
           return hash.set(key, current);
         }, new Map).values()];
 
-        spinner.stop(true);
+        spinner.stop();
 
         console.log(`Total number of commits: ${chalk.bold(commits.length)} found`);
 
@@ -101,7 +99,7 @@ fetchRepositories(program.args[0])
       });
   })
   .catch(error => {
-    spinner.stop(true);
+    spinner.stop();
 
     errorHandler(error);
   });
@@ -150,7 +148,7 @@ function fetchCommits(repository, username, page) {
 
   page = page || 1;
 
-  spinner.setSpinnerTitle(`Crunching data for ${repoName}... %s`);
+  spinner.setTitle(`Crunching data for ${repoName}... %s`);
 
   return github.repos
     .getCommits({owner: repository.owner, repo: repository.name, page: page, per_page: 100})
