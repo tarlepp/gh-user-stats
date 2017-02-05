@@ -65,6 +65,13 @@ fetchEvents(program.args[0])
     errorHandler(error);
   });
 
+/**
+ * Function to fetch GitHub events for specified user.
+ *
+ * @param {string}  username
+ * @param {int}     [page]
+ * @returns {Promise.<TResult>}
+ */
 function fetchEvents(username, page) {
   page = page || 1;
 
@@ -118,14 +125,15 @@ function fetchEvents(username, page) {
         })
       );
 
-      if (fetchNext) {
-        return fetchEvents(username, page + 1);
-      } else {
-        return rawData;
-      }
+      return fetchNext ? fetchEvents(username, page + 1) : rawData;
     });
 }
 
+/**
+ * Function to print output table.
+ *
+ * @param {{}[]} results
+ */
 function makeTable(results) {
   const table = new Table({
     head: ['Dimension', 'Events', 'Commits', 'Issue\ncomments', 'Created', 'PR'],
