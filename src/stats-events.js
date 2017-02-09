@@ -102,7 +102,7 @@ function fetchEvents(username, page) {
               key = date.format('YYYY-MM-DD');
               break;
             case 'week':
-              key = date.format('YYYY-WW');
+              key = date.format('YYYY-ww');
               break;
             case 'month':
             default:
