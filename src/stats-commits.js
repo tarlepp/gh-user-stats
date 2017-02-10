@@ -75,8 +75,8 @@ fetchRepositories(program.args[0])
     });
 
     Promise.all(results.map(repository => fetchCommits(repository, program.args[0])))
-      .then(results => {
-        const commits = [].concat.apply([], results);
+      .then(repositoryCommits => {
+        const commits = [].concat.apply([], repositoryCommits);
 
         const result = [...commits.reduce((hash, {key, date, message, repository, committer}) => {
           let current = hash.get(key) || {key, items: []};
@@ -182,7 +182,7 @@ function fetchCommits(repository, username, page) {
                 key = date.format('YYYY-MM-DD');
                 break;
               case 'week':
-                key = date.format('YYYY-WW');
+                key = date.format('YYYY-ww');
                 break;
               case 'month':
               default:
@@ -228,20 +228,41 @@ function fetchForkRepository(repository) {
 
 function makeTable(results) {
   const table = new Table({
-    head: ['Dimension', 'Commits', 'Repositories'],
+    head: ['Dimension', 'Repositories', 'Commits'],
   });
 
   results.sort((a, b) => a.key.localeCompare(b.key));
 
+  let total = 0;
+  let totalRepositories = [];
+
   results.map(result => {
     let repositories = [...new Set(result.items.map(item => item.repository.fullName))];
 
+    totalRepositories = [...new Set(totalRepositories.concat(repositories))];
+
     table.push([
       result.key,
-      {hAlign: 'right', content: result.items.length},
       repositories.sort().join('\n'),
+      {hAlign: 'right', vAlign:'bottom', content: result.items.length},
     ]);
+
+    total = total + result.items.length;
   });
+
+  table.push([
+    {colSpan: 3, content: chalk.bold('Totals')},
+  ]);
+
+  table.push([
+    'commits',
+    {colSpan: 2, hAlign: 'right', content: chalk.bold(total)},
+  ]);
+
+  table.push([
+    'repositories',
+    {colSpan: 2, hAlign: 'right', content: chalk.bold(totalRepositories.length)},
+  ]);
 
   console.log(table.toString());
 }
