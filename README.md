@@ -42,7 +42,7 @@ i.e. add to your `~/.bash_profile` or `~/.zshrc` or any other place to load ENV 
 ```
 export GH_USER_STATS_GITHUB_TOKEN="your-40-digit-github-token"
 ```
-15facab1579b7db9d5d9cd86de40016780dc5384
+
 ## [Change log](CHANGELOG.md)
 To re-generate just run
 
