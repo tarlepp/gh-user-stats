@@ -16,6 +16,7 @@ program
     '-y --year <year>',
     'From which year to start to fetch data',
     /\d+/,
+    /\d+/,
     moment().format('YYYY')
   )
   .option(
@@ -115,21 +116,23 @@ function fetchRepositories(username, page) {
   page = page || 1;
 
   return github.repos
-    .getForUser({username: username, page: page, per_page: 100})
+    .getForUser({username: username, page: page, per_page: 1000})
     .then(repositories => {
       const fetchNext = github.hasNextPage(repositories);
 
-      rawDataRepositories = rawDataRepositories
-        .concat(repositories
-          .map(repository => {
-            return {
-              name: repository.name,
-              fullName: repository.full_name,
-              owner: repository.owner.login,
-              isFork: repository.fork,
-            };
-          })
-        );
+      if (Array.isArray(repositories.data)) {
+        rawDataRepositories = rawDataRepositories
+          .concat(repositories.data
+            .map(repository => {
+              return {
+                name: repository.name,
+                fullName: repository.full_name,
+                owner: repository.owner.login,
+                isFork: repository.fork,
+              };
+            })
+          );
+      }
 
       return fetchNext ? fetchRepositories(username, page + 1) : rawDataRepositories;
     });
@@ -156,7 +159,7 @@ function fetchCommits(repository, username, page) {
       let fetchNext = github.hasNextPage(commits);
 
       rawDataCommits[repoName] = rawDataCommits[repoName]
-        .concat(commits
+        .concat(commits.data
           .filter(commit => {
             if (moment(commit.commit.committer.date).format('YYYY') < program.year) {
               fetchNext = false;
@@ -216,10 +219,10 @@ function fetchForkRepository(repository) {
     .then(result => {
       return [
         {
-          name: result.parent.name,
-          fullName: result.parent.full_name,
-          owner: result.parent.owner.login,
-          isFork: result.parent.fork,
+          name: result.data.parent.name,
+          fullName: result.data.parent.full_name,
+          owner: result.data.parent.owner.login,
+          isFork: result.data.parent.fork,
         },
         repository
       ];

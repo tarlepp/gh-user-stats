@@ -87,7 +87,7 @@ function fetchEvents(username, page) {
     .then(events => {
       const fetchNext = github.hasNextPage(events);
 
-      rawData = rawData.concat(events
+      rawData = rawData.concat(events.data
         .filter(event => validTypes.includes(event.type))
         .map(event => {
           const date = moment(event.created_at);
