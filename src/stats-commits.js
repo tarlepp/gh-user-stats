@@ -3,7 +3,7 @@
 
 const chalk = require('chalk');
 const program = require('commander');
-const Table = require('cli-table2');
+const Table = require('cli-table3');
 const moment = require('moment');
 const Promise = require('bluebird');
 const errorHandler = require('./utils/error-handler');
